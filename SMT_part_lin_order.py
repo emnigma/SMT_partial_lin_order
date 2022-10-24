@@ -16,21 +16,23 @@ def SMT_part_lin_order(relations: tp.Set, n_elements: int) -> Solver:
 
     s = Solver()
 
-    # добавить все отношения из условия в Solver
+    # добавил все отношения из условия в Solver
     for (v1, v2) in A:
         s.add(R(v1, v2))
 
     # посмотрел вот тут: https://theory.stanford.edu/~nikolaj/programmingz3.html#sec-transitive-closure
     TC_R = TransitiveClosure(R)
 
-    # добавить условие на транзитивное замыкание
+    # добавил условие на транзитивное замыкание
+    # i, j, k from vars => (iRj and jRk => iRk)
     for relation1 in A:
         a1, b1 = relation1
         for relation2 in A:
             a2, b2 = relation2
-            # what if (a, b), (b, a)?
             s.add(
                 Implies(
+                    # b1 == a2: средние элементы равны (?, j), (j, ?)
+                    # a1 != b2: крайние элементы не одинаковы (v1, j), (j, v2)
                     And(b1 == a2, a1 != b2),
                     TC_R(a1, b2)
                 )
