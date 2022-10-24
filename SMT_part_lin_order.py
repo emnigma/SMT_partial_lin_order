@@ -8,7 +8,7 @@ def SMT_part_lin_order(relations: tp.Set, n_elements: int) -> Solver:
     n = n_elements
     A = relations
 
-    vars = [Bool(f"var_{i}") for i in range(n)]
+    vars = [Int(f"var_{i}") for i in range(n)]
     A = {(vars[i1], vars[i2]) for (i1, i2) in A}
 
     # R(int, int) -> bool, если я правильно понимаю
