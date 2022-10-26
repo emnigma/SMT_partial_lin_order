@@ -2,6 +2,3 @@
 
 
 Проблема: на втором примере получаю SAT, а не UNSAT, не как в примере, пока не могу понять, почему
-
-повторил прием с транзитивным замыканием из мануала, не работает
-https://theory.stanford.edu/~nikolaj/programmingz3.html#sec-transitive-closure
