@@ -8,7 +8,9 @@ def main():
 
     s = SMT_part_lin_order(relations=A, n_elements=n)
 
-    print(s.check())  # sat (should be unsat, WHY sat?)
+    print(s.check())  # unsat (ok)
+    # print(s.model())
+    print(s.unsat_core())
 
 
 if __name__ == "__main__":

@@ -10,6 +10,7 @@ def main():
     s = SMT_part_lin_order(relations=A, n_elements=n)
 
     print(s.check())  # sat (ok)
+    print(s.model())
 
 
 if __name__ == "__main__":
