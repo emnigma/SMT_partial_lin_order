@@ -20,8 +20,10 @@ def SMT_part_lin_order(relations: tp.Set, n_elements: int) -> Solver:
     for (v1, v2) in A:
         s.add(R(v1, v2))
 
-    # посмотрел вот тут: https://theory.stanford.edu/~nikolaj/programmingz3.html#sec-transitive-closure
-    # TC_R = TransitiveClosure(R)
+    # условие на рефлексивность:
+    for v in vars:
+        if (v, v) not in A:
+            s.add(R(v, v))
 
     # добавил условие на транзитивное замыкание
     # i, j, k from vars => (iRj and jRk => iRk)
@@ -38,14 +40,23 @@ def SMT_part_lin_order(relations: tp.Set, n_elements: int) -> Solver:
                 )
             )
 
+    core_var_num = 0
     # 3: antisymmetric
     for v1 in vars:
         for v2 in vars:
-            s.add(
+            core_var = Bool(f"core_var_{core_var_num}")
+            core_var_num += 1
+            s.assert_and_track(
                 Implies(
                     And(R(v1, v2), R(v2, v1)),
                     v1 == v2
-                )
+                ), core_var
             )
+            # s.add(
+            #     Implies(
+            #         And(R(v1, v2), R(v2, v1)),
+            #         v1 == v2
+            #     )
+            # )
 
     return s
